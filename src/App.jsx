@@ -8,9 +8,10 @@ import Navigation from "./components/Navigation/Navigation";
 import HomePage from "./pages/HomePage/HomePage";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import MovieDetailsPage from "./pages/MovieDetailsPage/MovieDetailsPage";
 
 function App() {
-  const options = {
+  /*const options = {
     method: "GET",
     headers: {
       accept: "application/json",
@@ -25,7 +26,7 @@ function App() {
   )
     .then((res) => res.json())
     .then((res) => console.log(res))
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err));*/
 
   return (
     <div>
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/movies" element={<MoviesPage />}></Route>
+        <Route path="/movies/:movieId" element={<MovieDetailsPage />}></Route>
         <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
     </div>
