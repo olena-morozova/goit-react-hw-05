@@ -1,6 +1,8 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useParams, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+import css from "./MovieDetailsPage.module.css";
+import { fetchMovieById } from "../../service/moviesServises";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -8,6 +10,63 @@ export default function MovieDetailsPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    fetchMovieById(movieId)
+      .then((data) => setMovie(data))
+      .finally(() => setLoading(false));
+  }, [movieId]);
+
+  return (
+    <div>
+      {loading && <strong>Loading movies data...</strong>}
+      {movie && (
+        <div>
+          <div className={css.movieContainer}>
+            <img
+              className={css.poster}
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+            />
+            <div className={css.info}>
+              <h1>
+                {movie.title} ({movie.release_date?.slice(0, 4)})
+              </h1>
+              <p>User score: {Math.round(movie.vote_average * 10)}%</p>
+              <h2>Overview</h2>
+              <p>{movie.overview}</p>
+              <h3>Genres</h3>
+              <p>{movie.genres?.map((g) => g.name).join(", ")}</p>
+            </div>
+          </div>
+          <hr className={css.line} />
+          <div className={css.additionalInfo}>
+            <h2>Additional information</h2>
+
+            <ul>
+              <li>
+                <NavLink to="cast">Cast</NavLink>
+              </li>
+              <li>
+                <NavLink to="reviews">Reviews</NavLink>
+              </li>
+            </ul>
+            <Outlet />
+          </div>
+          <hr className={css.line} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+//const params = useParams();
+//  console.log(params);   // Показує номер id в консолі
+
+//const { movieId } = useParams();
+// return <div>Movie Details Page: {movieId} </div>; // Додає id на сторінці
+
+/*
+ useEffect(() => {
     const options = {
       method: "GET",
       headers: {
@@ -23,33 +82,7 @@ export default function MovieDetailsPage() {
       .finally(() => setLoading(false));
   }, [movieId]);
 
-  return (
-    <div>
-      <div>Movie Details Page: {movieId} </div>
-      {loading && <strong>Loading movies data...</strong>}
-      {movie && (
-        <>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <div>
-            <h1>{movie.title}</h1>
-            <p></p>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
 
-//const params = useParams();
-//  console.log(params);   // Показує номер id в консолі
-
-//const { movieId } = useParams();
-// return <div>Movie Details Page: {movieId} </div>; // Додає id на сторінці
-
-/*
 З бекенду
  fetch(`https://api.themoviedb.org/3/movie/${movieId}`, options)
       .then((res) => res.json())

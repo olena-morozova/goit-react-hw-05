@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchTrendingMovies } from "../../service/moviesServises";
 import css from "./HomePage.module.css";
 
 export default function HomePage() {
@@ -8,22 +8,9 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMjNhYmExNzczYTg3NjFmNWVhOTg2ZDFiMmEwZmE5MCIsIm5iZiI6MTc0NzIyOTExNC43OTUsInN1YiI6IjY4MjQ5OWJhMTAyODUyNTY4NTJkMmE0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.U0AMF10vvzIiNTfXn3a8001NaNb6ryoIdERADyECvZI",
-      },
-    };
-
     setLoading(true);
-    axios
-      .get(
-        "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
-        options
-      )
-      .then((res) => setMovies(res.data.results))
+    fetchTrendingMovies()
+      .then((data) => setMovies(data))
       .finally(() => setLoading(false));
   }, []);
 
