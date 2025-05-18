@@ -11,6 +11,14 @@ const options = {
   },
 };
 
+export const fetchMovieByQuery = async (query) => {
+  const res = await axios.get(
+    `/search/movie?query=${query}&include_adult=true&language=en-US&page=1`,
+    options
+  );
+  return res.data.results;
+};
+
 export const fetchTrendingMovies = async () => {
   const res = await axios.get("/trending/movie/day?language=en-US", options);
   return res.data.results;
