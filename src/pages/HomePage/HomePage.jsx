@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { fetchTrendingMovies } from "../../service/moviesServises";
 import css from "./HomePage.module.css";
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
 
   useEffect(() => {
     setLoading(true);
@@ -23,7 +25,11 @@ export default function HomePage() {
           <ul>
             {movies.map((movie) => (
               <li key={movie.id}>
-                <Link className={css.link} to={`/movies/${movie.id}`}>
+                <Link
+                  className={css.link}
+                  to={`/movies/${movie.id}`}
+                  state={location}
+                >
                   {movie.title}
                 </Link>
               </li>
