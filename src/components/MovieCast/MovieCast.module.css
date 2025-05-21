@@ -1,5 +1,15 @@
-.cast-container {
-  margin-top: 20px;
+.loadingMessage {
+  font-weight: bold;
+  color: #555;
+  padding: 10px;
+  text-align: center;
+}
+
+.messageError {
+  color: #555;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
 }
 
 .castList {
@@ -35,12 +45,4 @@
 .castList p:nth-child(2) {
   font-style: italic;
   color: #555;
-}
-
-.loading-message {
-  font-size: 18px;
-  font-weight: bold;
-  color: #777;
-  text-align: center;
-  margin-top: 20px;
 }

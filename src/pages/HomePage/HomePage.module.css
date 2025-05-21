@@ -1,0 +1,13 @@
+.loadingMessage {
+  font-weight: bold;
+  color: #555;
+  padding: 10px;
+  text-align: center;
+}
+
+.messageError {
+  color: #555;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
+}

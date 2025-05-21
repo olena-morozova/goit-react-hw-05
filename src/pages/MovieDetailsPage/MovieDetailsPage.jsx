@@ -17,19 +17,30 @@ export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    setError(false);
     setLoading(true);
+
     fetchMovieById(movieId)
       .then((data) => setMovie(data))
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, [movieId]);
 
   return (
     <div>
       <Link to={backLinkRef.current}>Go back</Link>
-      {loading && <strong>Loading movies data...</strong>}
-      {movie && (
+      {loading && (
+        <strong className={css.loadingMessage}>Loading movies data...</strong>
+      )}
+      {error && (
+        <p className={css.messageError}>
+          Whoops, something went wrong! Please try reloading this page!
+        </p>
+      )}
+      {!error && movie && (
         <div>
           <div className={css.movieContainer}>
             <img
@@ -68,34 +79,3 @@ export default function MovieDetailsPage() {
     </div>
   );
 }
-
-//const params = useParams();
-//  console.log(params);   // Показує номер id в консолі
-
-//const { movieId } = useParams();
-// return <div>Movie Details Page: {movieId} </div>; // Додає id на сторінці
-
-/*
- useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMjNhYmExNzczYTg3NjFmNWVhOTg2ZDFiMmEwZmE5MCIsIm5iZiI6MTc0NzIyOTExNC43OTUsInN1YiI6IjY4MjQ5OWJhMTAyODUyNTY4NTJkMmE0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.U0AMF10vvzIiNTfXn3a8001NaNb6ryoIdERADyECvZI",
-      },
-    };
-    setLoading(true);
-    axios
-      .get(`https://api.themoviedb.org/3/movie/${movieId}`, options)
-      .then((res) => setMovie(res.data))
-      .finally(() => setLoading(false));
-  }, [movieId]);
-
-
-З бекенду
- fetch(`https://api.themoviedb.org/3/movie/${movieId}`, options)
-      .then((res) => res.json())
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
-      */

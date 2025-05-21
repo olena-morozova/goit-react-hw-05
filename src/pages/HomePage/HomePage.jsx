@@ -6,20 +6,30 @@ import css from "./HomePage.module.css";
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const location = useLocation();
 
   useEffect(() => {
+    setError(false);
     setLoading(true);
     fetchTrendingMovies()
       .then((data) => setMovies(data))
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <>
-      {loading && <strong>Loading movies data...</strong>}
-      {movies.length > 0 && (
+      {loading && (
+        <strong className={css.loadingMessage}>Loading movies data...</strong>
+      )}
+      {error && (
+        <p className={css.messageError}>
+          Whoops, something went wrong! Please try reloading this page!
+        </p>
+      )}
+      {!error && movies.length > 0 && (
         <div>
           <h1>Trending today</h1>
           <ul>
@@ -40,8 +50,3 @@ export default function HomePage() {
     </>
   );
 }
-//{movie.backdrop_path}
-/*<img
-                    src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                    alt={movie.title}
-                  />*/

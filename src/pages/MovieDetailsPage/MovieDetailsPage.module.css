@@ -1,8 +1,23 @@
+.loadingMessage {
+  font-weight: bold;
+  color: #555;
+  padding: 10px;
+  text-align: center;
+}
+
+.messageError {
+  color: #555;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
+}
+
 .movieContainer {
   display: flex;
   gap: 20px;
   align-items: flex-start;
   margin-bottom: 20px;
+  margin-top: 24px;
 }
 .poster {
   width: 300px;
@@ -26,18 +41,3 @@
 .additionalInfo li {
   margin-bottom: 10px;
 }
-
-/*.movieContainer {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.poster {
-  width: 300px;
-  border-radius: 8px;
-}
-
-.info {
-  max-width: 600px;
-}*/
