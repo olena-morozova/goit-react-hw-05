@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link, useSearchParams, useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import css from "./MoviesPage.module.css";
 import { fetchMovieByQuery } from "../../service/moviesServises";
+import MovieList from "../../components/MovieList/MovieList";
 
 export default function MoviesPage() {
   const [inputValue, setInputValue] = useState("");
@@ -9,8 +10,6 @@ export default function MoviesPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const location = useLocation();
 
   const query = searchParams.get("query")?.trim() ?? "";
 
@@ -81,21 +80,7 @@ export default function MoviesPage() {
         <p className={css.messageInfo}>No results found for your request.</p> // повідомлення, якщо не знайдено
       )}
 
-      {!error && movies.length > 0 && (
-        <ul>
-          {movies.map((movie) => (
-            <li key={movie.id}>
-              <Link
-                className={css.link}
-                to={`/movies/${movie.id}`}
-                state={location}
-              >
-                {movie.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {!error && movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 }
